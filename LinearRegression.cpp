@@ -15,7 +15,7 @@ void LinearRegression::train(double alpha, int iterations)
 {
     double *J = new double[iterations];
     this->theta = gradient_descent(x, y, alpha, iterations, J, m);
-    cout << endl << "Theta: " << theta[0] << " " << theta[1] << endl;
+
 }
 
 double LinearRegression::predict(double x) 
@@ -54,7 +54,8 @@ double *LinearRegression::gradient_descent(double x[], double y[], double alpha,
     theta[0] = 1;
     theta[1] = 1;
 
-    for (int i = 0; i < iters; ++i) {
+    for (int i = 0; i < iters; ++i)
+    {
         double *predictions = calculate_predictions(x, theta, m);
         double *diff = Utils::array_diff(predictions, y, m);
 

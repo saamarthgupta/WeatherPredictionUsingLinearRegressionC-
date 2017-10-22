@@ -80,68 +80,145 @@ void weatherdata::readweatherdata(int choice)
 	}
 }
 */
-void days_vs_temp()
+void days_vs_temp(int choice)
 {
+    int counta;
 	/*weatherdata l1;*/
-	double days[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
-	double temperatures[] = {29, 22, 33, 34, 29, 35, 40, 32, 29, 33, 30, 43, 39, 34, 36,27.97};
+	double days[400];
+	double temperatures[400];
 	/*l1.readweatherdata(choice);*/
-    LinearRegression weatherpred(days,temperatures, 16);
 
+	fstream file;
+    if(choice==1)
+	file.open("../Database/INDELHI.csv", fstream::in);
+    else if(choice==2)
+        file.open("../Database/INCHENNAI.csv", fstream::in);
+    else if(choice==3)
+        file.open("../Database/INMUMBAI.csv", fstream::in);
+    else
+        file.open("../Database/INKOLKATA.csv",fstream::in);
+    if(!file)
+		cout<<"File Not Opened.\n";
+	else
+	{
+		int flag;
+	    string date;
+	    int i=0;
+	    int countt,loc=0;
 
-    cout << "Enter learning rate alpha (default: 0.01): ";
-    double alpha;
-    cin>>alpha;
+	    while(file.good())
+	    {
+	        countt=0;
+	    	getline ( file, date );
 
-    cout << "Enter number of iterations (default: 2000): ";
-    int iterations;
-    cin >> iterations;
+	        int sze=date.size();
+	        for(i=0;i<sze;i++)
+	        {
+	            if(date[i]=='\t')
+	                countt++;
+	            if(countt==3)
+	            {
+	                countt=0;
+	                break;
+	            }
+	        }
+	        i++;
+	        int j;
+	        flag=0;
+			if(loc==365)
+                break;
+	        for(j=i;j<sze;j++)
+	        {
+	            if(date[j]=='.')
+	            {
+	                temperatures[loc]=10*((int)date[i]-'0')+((int)date[i+1]-'0')+((double)date[j+1]-'0')/10;
+	                flag=1;
+	                break;
+	            }
+	        }
+	        if(flag==0)
+	            temperatures[loc]=10*((int)date[i]-'0')+(int)date[i+1]-'0';
+
+	        int ran=loc;
+	        days[ran]=++loc;
+			counta++;
+
+	    }
+        file.close();
+	}
+
+	int count=19;
+
+    LinearRegression weatherpred(days,temperatures,19);
+
+    /*cout << "Enter learning rate alpha (default: 0.01): ";*/
+    double alpha=0.01;
+    /*cin>>alpha;*/
+
+    /*cout << "Enter number of iterations (default: 1500): ";*/
+    int iterations=1500;
+    /*cin >> iterations;*/
 
     cout << "Training model..." << endl;
     weatherpred.train(alpha, iterations);
-    double x;
+    double x=1;
   	int day=3;
-	
-    for(x=1;x<=20;x++)
+    double temperature = weatherpred.predict(x);
+    temperatures[count]=temperature;
+    days[count]=count+1;
+    count++;
+    cout << "Estimated temperature for "<<++day<<"/08/2017 is : " << temperature << " F" << endl;
+    for(x=2;x<3;x++)
     {
-	    double temperature = weatherpred.predict(x);
-
-	    cout << "Estimated temperature for "<<++day<<"/08/2017 is : " << temperature << " C" << endl;	//Temperature is Read in F
+        int loc=20;
+        LinearRegression weatherpred1(days,temperatures,loc);
+        loc++;
+        iterations+=1;
+        weatherpred1.train(alpha, iterations);
+        temperature = weatherpred1.predict(x);
+        temperatures[count]=temperature;
+        days[count]=count+1;
+        count++;
+	    cout << "Estimated temperature for "<<++day<<"/08/2017 is : " << temperature << " F" << endl;	//Temperature is Read in F
 	}
 }
 
 
 int main()
 {
+    int choice,con=1;
 
-    int choice;
-    check:											//Goto label JUMP
-	cout<<"Welcome to Weather Prediction Wizard.\n";
-	
-	cout<<"1. Delhi\n";
-	cout<<"2. Chennai\n";
-	cout<<"3. Mumbai\n";
-	cout<<"4. Kolkata\n";
-	cout<<"Select The City : \n";
-		cin>>choice;
-	if(choice==1)
-		cout<<"You Have Chosen Delhi.\n";
-	else if(choice==2)
-		cout<<"You Have Chosen Chennai.\n";
-	else if(choice==3)
-		cout<<"You Have Chosen Mumbai.\n";
-	else if(choice==4)
-		cout<<"You Have Chosen Kolkata.\n";
-	else
-	{
-		cout<<"You Have Chosen the Wrong choice. Try Again.\n";
-		goto check;
-	}
+    while(con==1)
+    {
+        check:											//Goto label JUMP
+        cout << "Welcome to Weather Prediction Wizard.\n";
 
-    days_vs_temp();
+        cout << "1. Delhi\n";
+        cout << "2. Chennai\n";
+        cout << "3. Mumbai\n";
+        cout << "4. Kolkata\n";
+        cout << "Select The City : \n";
 
-        cout << endl << endl;
+            cin >> choice;
 
+        if (choice == 1)
+            cout << "You Have Chosen Delhi.\n";
+        else if (choice == 2)
+            cout << "You Have Chosen Chennai.\n";
+        else if (choice == 3)
+            cout << "You Have Chosen Mumbai.\n";
+        else if (choice == 4)
+            cout << "You Have Chosen Kolkata.\n";
+        else
+        {
+            cout << "You Have Chosen the Wrong choice. Try Again.\n";
+            goto check;
+        }
 
+        days_vs_temp(choice);
+         cout<<"Want to Try Again? (Press 1) : ";
+            cin>>con;
+    }
+    cout<<"\nThanks for Using The Program.\n";
     return 0;
 }

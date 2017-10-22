@@ -12,7 +12,8 @@ double Utils::array_sum(double arr[], int len)
     return s;
 }
 
-double *Utils::array_pow(double arr[], int len, int power) {
+double *Utils::array_pow(double arr[], int len, int power) 
+{
     double *arr2 = new double[len];
 
     for (int i = 0; i < len; ++i) {
@@ -22,7 +23,8 @@ double *Utils::array_pow(double arr[], int len, int power) {
     return arr2;
 }
 
-double *Utils::array_multiplication(double arr1[], double arr2[], int len) {
+double *Utils::array_multiplication(double arr1[], double arr2[], int len) 
+{
     double *arr = new double[len];
 
     for (int i = 0; i < len; ++i) {
@@ -32,7 +34,8 @@ double *Utils::array_multiplication(double arr1[], double arr2[], int len) {
     return arr;
 }
 
-double *Utils::array_diff(double arr1[], double arr2[], int len) {
+double *Utils::array_diff(double arr1[], double arr2[], int len) 
+{
     double *arr = new double[len];
 
     for (int i = 0; i < len; ++i) {
