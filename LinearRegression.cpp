@@ -15,7 +15,7 @@ void LinearRegression::train(double alpha, int iterations)
 {
     double *J = new double[iterations];
     this->theta = gradient_descent(x, y, alpha, iterations, J, m);
-
+    delete J;
 }
 
 double LinearRegression::predict(double x) 
@@ -28,6 +28,7 @@ double LinearRegression::compute_cost(double x[], double y[], double theta[], in
     double *predictions = calculate_predictions(x, theta, m);
     double *diff = Utils::array_diff(predictions, y, m);
     double *sq_errors = Utils::array_pow(diff, m, 2);
+    delete predictions,diff;
     return (1.0 / (2 * m)) * Utils::array_sum(sq_errors, m);
 }
 
