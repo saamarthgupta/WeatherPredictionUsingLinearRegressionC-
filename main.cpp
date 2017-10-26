@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "LinearRegression.h"
+#include <stdlib.h>
 
 using namespace std;
 
@@ -191,6 +192,7 @@ int main()
     while(con==1)
     {
         check:											//Goto label JUMP
+        system("CLS");
         cout << "Welcome to Weather Prediction Wizard.\n";
 
         cout << "1. Delhi\n";
