@@ -25,12 +25,12 @@ void weatherdata::readweatherdata(int choice)
 	/*if(choice==1)
         filename="../Database/INDELHI.csv";
 	else if(choice == 2)
-		filename = "../Database/INMUMBAI.csv";
+		filename = "Database/INMUMBAI.csv";
     else if(choice == 3)
-		filename = "../Database/INKOLKATA.csv";
+		filename = "Database/INKOLKATA.csv";
 	else
-		filename = "../Database/INCHENNAI.csv";
-    file.open("../Database/INDELHI.csv", fstream::in);
+		filename = "Database/INCHENNAI.csv";
+    file.open("Database/INDELHI.csv", fstream::in);
 
 	if(!file)
 		cout<<"File Not Opened.\n";
