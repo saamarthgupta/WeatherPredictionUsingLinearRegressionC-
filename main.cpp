@@ -23,7 +23,7 @@ void weatherdata::readweatherdata(int choice)
 	fstream file;
     string filename;
 	/*if(choice==1)
-        filename="../Database/INDELHI.csv";
+        filename="Database/INDELHI.csv";
 	else if(choice == 2)
 		filename = "Database/INMUMBAI.csv";
     else if(choice == 3)
